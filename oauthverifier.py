@@ -223,13 +223,7 @@ async def revokeoauth(ctx, member: Option(discord.Member, "The member you want t
                 await ctx.respond(f"No oauth found for {memberid}", ephemeral=True)
         else:
             await ctx.respond("Invalid request", ephemeral=True)
-@bott.event
-async def on_raw_member_remove(payload):
-    search = mongo["oauthbot"]["oauth_token"].find({"user_id": str(payload.user.id)})
-    if mongo["oauthbot"]["oauth_token"].count_documents({"user_id": str(payload.user.id)}) > 0:
-        for i in search:
-            print("Forcefully rejoined user after removal.")
-            forceadduser(str(payload.guild_id), i["user_id"], i["access_token"])
+
 
 @bott.slash_command()
 async def inviteall(ctx):
